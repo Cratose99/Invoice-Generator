@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Salus Invoice</title>
+
+</head>
+
+<body>
+  <div>
+    <img src="./cover.png" class="justify-content-center" alt="Picture" id="saluslogo"/>
+    <br />
+    <h1 id="sentEmail"></h1>
+    <!-- <button type="button" class="btn login btn-primary" id="butt" data-toggle="modal" data-target="#myModal">
+      Enter Your Email and Full Name Here
+    </button> -->
+    <br />
+    <br />
+    <div class="d-flex justify-content-center">
+      <div class="card" id="instructions">
+        <div class="card-body">
+          <h5>Instructions</h5>
+          <ul>
+            <li>Enter Email Address you want the Invoice copy sent to.</li>
+            <li>Pay To: First and Last Name Or Company.</li>
+            <li>Enter Invoice# to keep for reference.</li>
+            <li>SOW & EOW Time Should Be Entered Only In Military Time. Example: 0800 or 1500.</li>
+            <li>Hit "Calculate" to get your hours and total</li>
+            <li>Upload the image of your receipts if needed.</li>
+            <li>Click on "Submit Invoice" and wait for conformation.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div id="tables" class="card ">
+        <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Invoice</h3>
+        <div class="card-body">
+          <div id="table" class="table-editable">
+            <label class="topbox">Invoice#</label><input type="text" id="invoice" />
+            <br>
+            <label class="email topbox">Email:</label><input type="text" id="email" />
+            <br>
+            <label class="name topbox">Pay To/Company:</label><input type="text" id="name" />
+            <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i class="fas fa-plus fa-2x"
+                  aria-hidden="true"></i></a></span>
+            <table class="table table-bordered table-responsive-md table-striped text-center">
+              <thead>
+                <tr>
+                  <th class="text-center">Date</th>
+                  <th class="text-center">Client/Detail</th>
+                  <th class="text-center">Location</th>
+                  <th class="text-center">SOW</th>
+                  <th class="text-center">EOW</th>
+                  <th class="text-center">Hours</th>
+                  <th class="text-center">Rate</th>
+                  <th class="text-center">Total</th>
+                  <th class="text-center">Remove</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="rowss">
+                  <td class="pt-3-half" contenteditable="true"></td>
+                  <td class="pt-3-half" contenteditable="true"></td>
+                  <td class="pt-3-half" contenteditable="true"></td>
+                  <td class="pt-3-half sow" contenteditable="true"></td>
+                  <td class="pt-3-half eow" contenteditable="true"></td>
+                  <td id="hours" class="pt-3-half hour"></td>
+                  <td id="rate" class="pt-3-half rate" contenteditable="true"></td>
+                  <td id="rowTotal" class="pt-3-half rawTotal"></td>
+                  <td>
+                    <span class="table-remove"><button type="button"
+                        class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <button type="button" class="btn btn-sm btn-secondary" id="calc" data-dismiss="modal">Calculate</button>
+          </div>
+          <label>Expenses:</label><input value="0" type="text" id="exp" />
+          <h5><u>Total:$<span id="grandTotal1">0</span></u></h5>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea2">Notes and Information</label>
+            <textarea class="form-control rounded-1" id="noteBox" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div id="file" class="input-group">
+        <div class="custom-file">
+          <input type="file" onchange="uploadFileToServer()" class="custom-file-input" id="inputGroupFile01"
+            aria-describedby="inputGroupFileAddon01">
+          <label class="custom-file-label" for="inputGroupFile01">Attach Recipt if Applicable</label>
+        </div>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div style="text-align:center">
+      <input type="button" id="export-btn" class="btn sendemail btn-primary" value="Submit Invoice"
+        onclick="sendEmail()" />
+      <div id="hide">
+        <div id="copy">
+          <h3 id="inName"></h3>
+          <h4 id="id">Invoice#:</h4>
+          <table border="2" style=" border-color:black;">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Client/Detail</th>
+                <th>Location</th>
+                <th>SOW</th>
+                <th>EOW</th>
+                <th>Hours</th>
+                <th>Rate</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="html">
+            </tbody>
+          </table>
+          <h3 id="expop"><u>Expenses:$<span id="expop"></span></u></h3>
+          <h3 id="grandTotal"><u>Total:$<span id="grandTotal1"></span></u></h3>
+          <h3>Notes and Information</h3>
+          <p id="notes"></p>
+        </div>
+      </div>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://smtpjs.com/v3/smtp.js"></script>
+      <script src="logic.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.10.1/css/mdb.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+      <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+      <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.10.1/js/mdb.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="index.css">
+</body>
+
+</html>
